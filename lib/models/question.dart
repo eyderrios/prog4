@@ -23,7 +23,7 @@ class Question {
     return Question(
       text: text,
       value: value,
-      options: options,
+      options: List<Option>.from(options),
     );
   }
 }

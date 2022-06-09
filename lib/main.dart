@@ -31,13 +31,16 @@ class _QuizzAppState extends State<QuizzApp> {
     debugPrint('initState()');
 
     super.initState();
-
-    _questions.clear();
-    _questions.addAll(Database.selectRandom(4));
-    _questionIndex = 0;
-    _score = 0;
+    _resetState();
 
     debugPrint(_questions.toString());
+  }
+
+  void _resetState() {
+    _questions.clear();
+    _questions.addAll(Database.selectRandom(2));
+    _questionIndex = 0;
+    _score = 0;
   }
 
   void _checkAnswer(BuildContext context, bool correct) {
@@ -64,15 +67,6 @@ class _QuizzAppState extends State<QuizzApp> {
     });
   }
 
-  void restart() {
-    setState(() {
-      _score = 0;
-      _questionIndex = 0;
-      _questions.clear();
-      _questions.addAll(Database.selectRandom(4));
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -86,8 +80,11 @@ class _QuizzAppState extends State<QuizzApp> {
           : ResultScreen(
               score: _score,
               totalScore: _totalScore,
-              onRestart: restart,
-            ),
+              onRestart: () {
+                setState(() {
+                  _resetState();
+                });
+              }),
     );
   }
 }

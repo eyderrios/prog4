@@ -1,5 +1,6 @@
 import './question.dart';
 
+// Singleton
 class Database {
   static const _questions = [
     Question(
@@ -67,16 +68,14 @@ class Database {
   static int get questionCount => _questions.length;
 
   static List<Question> selectRandom(int count) {
-    final List<int> indexes = List<int>.generate(
-      questionCount,
-      (index) => index,
-    );
+    final List<int> indexes =
+        List<int>.generate(questionCount, (index) => index);
     indexes.shuffle();
 
     return List<Question>.generate(
       count,
       (index) {
-        final q = _questions[index].copy();
+        final q = _questions[indexes[index]].copy();
         q.options.shuffle();
         return q;
       },
