@@ -43,7 +43,7 @@ class _QuizzAppState extends State<QuizzApp> {
     _score = 0;
   }
 
-  void _checkAnswer(BuildContext context, bool correct) {
+  void _checkAnswer(bool correct) {
     final String msg;
 
     if (correct) {
@@ -58,9 +58,18 @@ class _QuizzAppState extends State<QuizzApp> {
     _messengerKey.currentState?.showSnackBar(
       SnackBar(
         content: Text(msg),
-        duration: const Duration(seconds: 1),
+        duration: const Duration(seconds: 3),
       ),
     );
+
+    // debugPrint('ANTES');
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   SnackBar(
+    //     content: Text(msg),
+    //     duration: const Duration(seconds: 1),
+    //   ),
+    // );
+    // debugPrint('DEPOIS');
 
     setState(() {
       _questionIndex++;
@@ -75,7 +84,7 @@ class _QuizzAppState extends State<QuizzApp> {
       home: (_questionIndex < _questions.length)
           ? QuestionScreen(
               question: _questions[_questionIndex],
-              onAnswer: (correct) => _checkAnswer(context, correct),
+              onAnswer: _checkAnswer,
             )
           : ResultScreen(
               score: _score,
